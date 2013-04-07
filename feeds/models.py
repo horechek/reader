@@ -11,14 +11,14 @@ class Tag(models.Model):
 
 class Feed(models.Model):
     url = models.CharField(max_length = 255)
-    title = models.CharField(max_length=255)
-    description = models.TextField(max_length=255)
-    link = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, blank=True)
+    description = models.TextField(max_length=255, blank=True)
+    link = models.CharField(max_length=255, blank=True)
     user = models.OneToOneField(User)
-    tags = models.ManyToManyField(Tag, verbose_name="tags", related_name="tags")
+    tags = models.ManyToManyField(Tag, verbose_name="tags", related_name="tags", blank=True)
     
     def __unicode__(self):
-        return self.title
+        return self.url
 
 class FeedItem(models.Model):
     feed = models.ForeignKey(Feed)
