@@ -2,12 +2,20 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+class Tag(models.Model):
+    title = models.CharField(max_length=255)
+    slug = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.title
+
 class Feed(models.Model):
     url = models.CharField(max_length = 255)
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
     link = models.CharField(max_length=255)
     user = models.OneToOneField(User)
+    tags = models.ManyToManyField(Tag, verbose_name="tags", related_name="tags")
     
     def __unicode__(self):
         return self.title
