@@ -14,7 +14,7 @@ class Feed(models.Model):
     title = models.CharField(max_length=255, blank=True)
     description = models.TextField(max_length=255, blank=True)
     link = models.CharField(max_length=255, blank=True)
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User)
     tags = models.ManyToManyField(Tag, verbose_name="tags", related_name="tags", blank=True)
     
     def __unicode__(self):
@@ -24,7 +24,7 @@ class FeedItem(models.Model):
     feed = models.ForeignKey(Feed)
     title = models.CharField(max_length=255)
     date = models.DateField()
-    summary = models.CharField(max_length=255)
+    summary = models.TextField()
     link = models.CharField(max_length=255)
     content = models.TextField()
     

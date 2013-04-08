@@ -1,3 +1,9 @@
 {% extends 'base.html' %}
 
-add feed
+{% block content %}
+<form action="/feeds/add/" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit">
+</form>
+{% endblock %}
