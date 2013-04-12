@@ -4,9 +4,11 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
+from reader import settings
+
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'reader.views.home', name='home'),
+    url(r'^$', 'feeds.views.main', name='home'),
     # url(r'^reader/', include('reader.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
@@ -17,5 +19,6 @@ urlpatterns = patterns('',
     url(r'^register/$', 'reader.views.register', name='register'),
     url(r'^login/$', 'reader.views.login', name='login'),
     url(r'^logout/$', 'reader.views.logout', name='logout'),
-    url(r'^feeds/', include('feeds.urls'))
+    url(r'^feeds/', include('feeds.urls')),
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes':True}),
 )
