@@ -1,12 +1,15 @@
 <html>
     <head>
         {% load staticfiles %}
+        {% block hederscripts %}
         <link rel="stylesheet" href="{% static "css/normalize.css" %}">
         <link rel="stylesheet" href="{% static "css/foundation.css" %}">
         <link rel="stylesheet" href="{% static "css/app.css" %}">
         <script src="{% static "js/vendor/custom.modernizr.js" %}"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="{% static "js/knockout-2.2.1.js" %}"></script>
         <script src="{% static "js/app.js" %}"></script>
+        {% endblock %}
     </head>
 
     <body>

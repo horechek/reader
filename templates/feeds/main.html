@@ -1,22 +1,29 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
+{% block hederscripts %}
+    {{ block.super }}
+    <script src="{% static "js/models/HomeModel.js" %}"></script>
+{% endblock %}
+
 {% block content %}
-<div class="row max-row">
-    <div class="large-2 columns borderright" id="sidebar-1">
-        <ul class="side-nav">
-            <li><a href="#">All</a></li>
-            <li class="divider"></li>
-            {% for feed in feeds %}
-            <li><a href="#">{{feed.title}}</a></li>
-            {% endfor %}
-        </ul>
+    <div class="row max-row">
+        <div class="large-2 columns borderright" id="sidebar-1">
+            <ul class="side-nav">
+                <li><a href="#">All</a></li>
+                <li class="divider"></li>
+                {% for feed in feeds %}
+                <li><a href="#">{{feed.title}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="large-3 columns borderright" id="sidebar-2">
+            <p>Copyright no one at all. Go to town.</p>
+        </div>
+        <div class="large-7 columns" id="main-content-area">
+            <h2>Маин итем контент</h2>
+            <p></p>
+        </div>
     </div>
-    <div class="large-3 columns borderright" id="sidebar-2">
-        <p>Copyright no one at all. Go to town.</p>
-    </div>
-    <div class="large-7 columns" id="main-content-area">
-        <h2>Маин итем контент</h2>
-        <p></p>
-    </div>
-</div>
 {% endblock %}
