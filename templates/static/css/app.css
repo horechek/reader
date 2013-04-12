@@ -1,0 +1,7 @@
+.max-row {
+    max-width: 100% ! important;
+}
+
+.borderright {
+    border-right:solid 1px #dddddd;
+}

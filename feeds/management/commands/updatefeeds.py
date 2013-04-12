@@ -17,6 +17,8 @@ import re
 #         _my_date_pattern.search(aDateString).groups()
 #     return (int(year), int(month), int(day), \
 #         int(hour), int(minute), int(second), 0, 0, 0)
+#
+# http://wiki.python.org/moin/RssLibraries
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -46,4 +48,3 @@ class Command(BaseCommand):
                     article.summary = item['summary']
                 article.feed_id = feed.id
                 article.save()
-
