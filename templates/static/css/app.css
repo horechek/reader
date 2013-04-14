@@ -4,4 +4,21 @@
 
 .borderright {
     border-right:solid 1px #dddddd;
+    overflow-y: scroll;
+}
+
+#main-content-area{
+    overflow-y: scroll;
+}
+
+.top-bar {
+    margin-bottom: 0px ! important;
+}
+
+.main-column{
+    padding-top: 20px;
+}
+
+.feeditem-div{
+    cursor: pointer;
 }
