@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand, CommandError
+from django.utils.html import strip_tags
 
 import feedparser
 from datetime import date
@@ -47,4 +48,5 @@ class Command(BaseCommand):
                 if 'summary' in item:
                     article.summary = item['summary']
                 article.feed_id = feed.id
+                article.shortDescr = strip_tags(article.summary)[0:25]
                 article.save()
