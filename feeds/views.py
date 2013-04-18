@@ -11,10 +11,11 @@ from feeds.models import *
 @login_required
 def add_feed(request):
     if request.method == "POST":
-        data = request.POST
-        data['user'] = request.user.id
-        print data
-        form = FeedForm(request.POST)
+        # data = request.POST
+        post_values = request.POST.copy()
+        post_values['user'] = request.user.id
+        # print data
+        form = FeedForm(post_values, initial={'user': request.user.id})
         # form.user = request.user.id
         if form.is_valid():
             feed = form.save()
@@ -32,7 +33,8 @@ def remove_feed(request, id):
 def main(request):
     form = FeedForm()
     tags = Tag.objects.filter(user=request.user.id)
-    feeds = Feed.objects.filter(user=request.user.id, tags=False)
+    feeds = Feed.objects.filter(user=request.user.id, tags__isnull=True)
+    print feeds
     return render(request, 'feeds/main.html',
                   {'feeds': feeds, 'tags': tags, 'form': form})
 

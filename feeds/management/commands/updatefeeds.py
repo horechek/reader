@@ -37,7 +37,10 @@ class Command(BaseCommand):
                 except:
                     article = FeedItem()
                 article.link = item['link']
-                article.title = item['title']
+                if 'title' in item:
+                    article.title = item['title']
+                else:
+                    article.title = item['link']
                 # if 'date' in item:
                 #     article.date = item['date']
                 # else:
