@@ -6,9 +6,13 @@
         <link rel="stylesheet" href="{% static "css/foundation.css" %}">
         <link rel="stylesheet" href="{% static "css/app.css" %}">
         <script src="{% static "js/vendor/custom.modernizr.js" %}"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="{% static "js/vendor/jquery.js" %}"></script>
+        <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script-->
+        <script src="{% static "js/foundation/foundation.js" %}"></script>
+        <script src="{% static "js/foundation/foundation.reveal.js" %}"></script>
         <script src="{% static "js/knockout-2.2.1.js" %}"></script>
         <script src="{% static "js/app.js" %}"></script>
+        <script type="text/javascript">$(document).foundation();</script>
         {% endblock %}
     </head>
 
@@ -32,7 +36,7 @@
                 <ul class="left">
                     <li class="divider"></li>
                     <li class="/*has-dropdown*/">
-                        <a class="active" href="#">Add Feed</a>
+                        <a class="active" href="#" data-reveal-id="add-feed-modal">Add Feed</a>
                         <!-- <ul class="dropdown">
                             <li><label>Section Name</label></li>
                             <li><a href="#" class="">Dropdown Level 1</a></li>
@@ -125,6 +129,26 @@
         <!-- End Grid Section -->
 
         {% block content %}
+        {% endblock %}
+        {% block addfeedmodal %}
+        <div id="add-feed-modal" class="reveal-modal">
+            <h2>Add new feed</h2>
+            <p class="lead">Your couch.  It is mine.</p>
+            <p>Im a cool paragraph that lives inside of an even cooler modal. Wins</p>
+            <form action="/feeds/add/" method="post">
+                {% csrf_token %}
+                <p>
+                    {{ form.url.errors }}
+                    {{ form.url.label_tag }} {{ form.url }}
+                </p>
+                <p>
+                    {{ form.tags.errors }}
+                    {{ form.tags.label_tag }} {{ form.tags }}
+                </p>
+                <input type="submit">
+            </form>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
         {% endblock %}
     </body>
 </html>
