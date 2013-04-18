@@ -11,8 +11,13 @@ from feeds.models import *
 @login_required
 def add_feed(request):
     if request.method == "POST":
+        data = request.POST
+        data['user'] = request.user.id
+        print data
         form = FeedForm(request.POST)
-        feed = form.save()
+        # form.user = request.user.id
+        if form.is_valid():
+            feed = form.save()
     else:
         form = FeedForm()
     return render(request, 'feeds/add.html', {'form': form})
@@ -25,12 +30,20 @@ def remove_feed(request, id):
 
 @login_required
 def main(request):
-    feeds = Feed.objects.filter(user=request.user.id)
-    return render(request, 'feeds/main.html', {'feeds': feeds})
+    form = FeedForm()
+    tags = Tag.objects.filter(user=request.user.id)
+    feeds = Feed.objects.filter(user=request.user.id, tags=False)
+    return render(request, 'feeds/main.html',
+                  {'feeds': feeds, 'tags': tags, 'form': form})
 
 
-def load_items(request, feed_id):
-    items = FeedItem.objects.filter(feed=feed_id)
+def load_items(request, feed_id=False, tag_id=False):
+    if feed_id:
+        items = FeedItem.objects.filter(feed=feed_id)
+    elif tag_id:
+        items = FeedItem.objects.filter(feed__user=request.user.id, feed__tags=tag_id)
+    else:
+        items = FeedItem.objects.filter(feed__user=request.user.id)
     json = toJSON(items)
     return HttpResponse(json, mimetype='application/json')
 

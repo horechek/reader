@@ -21,6 +21,7 @@ class DjangoJSONEncoder(JSONEncoder):
 class Tag(models.Model):
     title = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
         return self.title
@@ -32,7 +33,7 @@ class Feed(models.Model):
     description = models.TextField(max_length=255, blank=True)
     link = models.CharField(max_length=255, blank=True)
     user = models.ForeignKey(User)
-    tags = models.ManyToManyField(Tag, verbose_name="tags", related_name="tags", blank=True)
+    tags = models.ManyToManyField(Tag, verbose_name="tags", related_name="feeds", blank=True)
 
     def __unicode__(self):
         return self.url

@@ -13,10 +13,10 @@ function HomeModel(){
     self.mainContent = ko.observable();
     self.mainTitle= ko.observable();
 
-    self.reloadItems = function (feedId, data, event) {
+    self.reloadItems = function (url, data, event) {
         //ходим аяксом и забираем итемы по feedId
         $.ajax({
-            url : "/feeds/load_items/" + feedId + "/",
+            url : url,
             dataType: 'json',
             method: 'get',
             success : function(data) {

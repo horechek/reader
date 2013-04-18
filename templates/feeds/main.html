@@ -11,10 +11,38 @@
     <div class="row max-row">
         <div class="large-2 columns borderright main-column" id="sidebar-1">
             <ul class="side-nav">
-                <li><a href="#">All</a></li>
+                <li><a href="#" data-bind="click: 
+                    function(data, event) { 
+                        reloadItems('/feeds/load_items/', data, event) 
+                    }
+                    ">All</a></li>
                 <li class="divider"></li>
+                {% for tag in tags %}
+                <li><a href="" data-bind="click: 
+                        function(data, event) { 
+                            reloadItems('/feeds/load_items/tag/{{tag.id}}/', data, event) 
+                        }"
+                    >{{ tag.title }}</a>
+                <!-- <li class="divider"></li> -->
+                    <ul>
+                    {% for feed in tag.feeds.all %}
+                    <li><a href="#" data-bind="click: 
+                        function(data, event) { 
+                            reloadItems('/feeds/load_items/{{feed.id}}/', data, event) 
+                        }
+                    ">{{feed.title}}</a></li>
+                    {% endfor %}
+                    </ul>
+                </li>
+                <li class="divider">
+                {% endfor %}
+
                 {% for feed in feeds %}
-                <li><a href="#" data-bind="click: function(data, event) { reloadItems({{feed.id}}, data, event) }">{{feed.title}}</a></li>
+                <li><a href="#" data-bind="click: 
+                    function(data, event) { 
+                        reloadItems('/feeds/load_items/{{feed.id}}/', data, event) 
+                    }
+                ">{{feed.title}}</a></li>
                 {% endfor %}
             </ul>
         </div>
