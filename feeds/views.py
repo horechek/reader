@@ -54,7 +54,7 @@ def load_item_content(request, item_id):
     item = FeedItem.objects.get(pk=item_id)
     # json = toJSON(item)
     return HttpResponse(simplejson.dumps({'content': item.summary,
-                                          'title': item.title}),
+                                          'title': "<a href='"+item.link+"' target='_blank'>"+item.title+"</a>"}),
                         mimetype='application/json')
 
 
