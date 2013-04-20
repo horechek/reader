@@ -26,8 +26,7 @@ function HomeModel(){
                         items.push(new Item(obj.pk, obj.fields.title, obj.fields.shortDescr, 0))
                     })(value);
                 })
-                self.items(items);
-                // rebuildScroll();
+                self.items(items);    
             }
         });
     }
@@ -41,7 +40,6 @@ function HomeModel(){
             success : function(data) {
                 self.mainContent(data.content)
                 self.mainTitle(data.title)
-                // rebuildScroll();
             },
             error: function(data, stats, error) {
                 console.log("login fault: " + data + ", " + 
@@ -57,7 +55,3 @@ $(function(){
     model = new HomeModel();
     ko.applyBindings(model);
 })
-
-// function rebuildScroll() {
-//     // $('.scroll-pane').jScrollPane();
-// }
