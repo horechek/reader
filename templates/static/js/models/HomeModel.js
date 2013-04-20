@@ -1,8 +1,9 @@
-function Item(id, title, summary, isRead) {
+function Item(id, title, summary, isRead, date) {
     this.id = id
     this.title = title;
     this.summary = summary;
-    this.isRead = isRead;
+    this.date = date;
+    this.isRead = ko.observable(isRead);
 }
 
 function HomeModel(){
@@ -11,10 +12,10 @@ function HomeModel(){
     self.feeds = 'Bob'
     self.items = ko.observableArray([]);
     self.mainContent = ko.observable();
-    self.mainTitle= ko.observable();
+    self.mainTitle = ko.observable();
+    self.mainDate = ko.observable();
 
-    self.reloadItems = function (url, data, event) {
-        //ходим аяксом и забираем итемы по feedId
+    self.reloadItems = function (url, model, event) {
         $.ajax({
             url : url,
             dataType: 'json',
@@ -23,7 +24,14 @@ function HomeModel(){
                 var items = [];
                 $.each(data, function(index, value) {
                     (function(obj){
-                        items.push(new Item(obj.pk, obj.fields.title, obj.fields.shortDescr, 0))
+                        items.push(
+                            new Item(
+                                obj.pk, obj.fields.title, 
+                                obj.fields.shortDescr, 
+                                obj.fields.isRead,
+                                obj.fields.date
+                            )
+                        )
                     })(value);
                 })
                 self.items(items);    
@@ -31,8 +39,8 @@ function HomeModel(){
         });
     }
 
-    self.reloadMainContent = function (itemId, data, event) {
-        //ходим аяксом и забираем контент по itemId
+    self.reloadMainContent = function (itemId, item, event) {
+        console.dir()
         $.ajax({
             url : "/feeds/load_item_content/" + itemId + "/",
             dataType: 'json',
@@ -40,14 +48,14 @@ function HomeModel(){
             success : function(data) {
                 self.mainContent(data.content)
                 self.mainTitle(data.title)
+                self.mainDate(data.date)
+                item.isRead(data.isRead)
             },
             error: function(data, stats, error) {
                 console.log("login fault: " + data + ", " + 
                         stats + ", " + error);
             }
         });
-
-        // self.mainContent("reloaded")
     }
 }
 

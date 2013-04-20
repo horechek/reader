@@ -48,7 +48,7 @@
         </div>
         <div class="large-3 columns borderright main-column scroll-pane" id="sidebar-2">
             <div data-bind="foreach: items">
-                <div class="feeditem-div">
+                <div class="feeditem-div" data-bind="css: { readed: isRead }">
                     <h6 data-bind="
                         html: title, 
                         click: function(data, event) { 
@@ -56,12 +56,14 @@
                                 }
                         "></h6>
                     <p data-bind="text: summary"></p>
+                    <div class="date-div" data-bind="html: date"></div>
                     <hr />
                 </div>
             </div>
         </div>
         <div class="large-6 columns main-column scroll-pane" id="main-content-area" >
             <h2 data-bind="html: mainTitle"></h2>
+            <div class="date-div" data-bind="html: mainDate"></div>
             <div data-bind="html: mainContent"></div>
         </div>
     </div>

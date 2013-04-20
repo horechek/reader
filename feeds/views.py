@@ -34,27 +34,30 @@ def main(request):
     form = FeedForm()
     tags = Tag.objects.filter(user=request.user.id)
     feeds = Feed.objects.filter(user=request.user.id, tags__isnull=True)
-    print feeds
     return render(request, 'feeds/main.html',
                   {'feeds': feeds, 'tags': tags, 'form': form})
 
 
 def load_items(request, feed_id=False, tag_id=False):
     if feed_id:
-        items = FeedItem.objects.filter(feed=feed_id)
+        items = FeedItem.objects.filter(feed=feed_id).order_by('date').reverse()
     elif tag_id:
-        items = FeedItem.objects.filter(feed__user=request.user.id, feed__tags=tag_id)
+        items = FeedItem.objects.filter(feed__user=request.user.id, feed__tags=tag_id).order_by('date').reverse()
     else:
-        items = FeedItem.objects.filter(feed__user=request.user.id)
+        items = FeedItem.objects.filter(feed__user=request.user.id).order_by('date').reverse()
     json = toJSON(items)
     return HttpResponse(json, mimetype='application/json')
 
 
 def load_item_content(request, item_id):
     item = FeedItem.objects.get(pk=item_id)
+    item.isRead = True
+    item.save()
     # json = toJSON(item)
     return HttpResponse(simplejson.dumps({'content': item.summary,
-                                          'title': "<a href='"+item.link+"' target='_blank'>"+item.title+"</a>"}),
+                                          'title': "<a href='"+item.link+"' target='_blank'>"+item.title+"</a>",
+                                          'date': item.date.strftime("%Y-%m-%d"),
+                                          'isRead': item.isRead}),
                         mimetype='application/json')
 
 
