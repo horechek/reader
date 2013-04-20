@@ -45,7 +45,7 @@ class FeedItem(models.Model):
     date = models.DateField()
     summary = models.TextField()
     link = models.CharField(max_length=255)
-    content = models.TextField()
+    content = models.TextField(blank=True)
     shortDescr = models.TextField()
     isRead = models.BooleanField()
 

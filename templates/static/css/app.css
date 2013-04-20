@@ -26,3 +26,20 @@
 .scroll-pane{
     outline: none;
 }
+
+.borderright .readed{
+    color:#aaa;
+}
+
+.borderright .readed h6{
+    color:#999;
+}
+
+.feeditem-div{
+    font-size: 12px;
+}
+
+.date-div{
+    text-align: right;
+    font-size: 12px;
+}
