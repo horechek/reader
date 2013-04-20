@@ -10,3 +10,7 @@ class FeedForm(forms.ModelForm):
 class TagForm(forms.ModelForm):
     class Meta:
         model = Tag
+
+
+class ImportForm(forms.Form):
+    file  = forms.FileField()

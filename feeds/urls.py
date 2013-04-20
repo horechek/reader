@@ -3,6 +3,7 @@ from django.conf.urls import url, patterns, include
 urlpatterns = patterns('feeds.views',
     url(r'add/$', 'add_feed', name='add_feed'),
     url(r'add_tag/$', 'add_tag', name='add_tag'),
+    url(r'import/$', 'import_feeds', name='import_feeds'),
     url(r'load_items/(?P<feed_id>[\d]*)/$', 'load_items', name='load_items'),
     url(r'load_items/tag/(?P<tag_id>[\d]*)/$', 'load_items', name='load_items_tag'),
     url(r'load_items/$', 'load_items', name='load_items_all'),
