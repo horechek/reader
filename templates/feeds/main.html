@@ -9,7 +9,7 @@
 
 {% block content %}
     <div class="row max-row">
-        <div class="large-2 columns borderright main-column" id="sidebar-1">
+        <div class="large-2 columns borderright main-column scroll-pane " id="sidebar-1">
             <ul class="side-nav">
                 <li><a href="#" data-bind="click: 
                     function(data, event) { 
@@ -46,14 +46,16 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="large-3 columns borderright main-column" id="sidebar-2" data-bind="foreach: items">
-            <div class="feeditem-div">
-                <h6 data-bind="text: title, click: function(data, event) { $parent.reloadMainContent(id, data, event) }"></h6>
-                <p data-bind="text: summary"></p>
-                <hr />
+        <div class="large-3 columns borderright main-column scroll-pane" id="sidebar-2">
+            <div data-bind="foreach: items">
+                <div class="feeditem-div">
+                    <h6 data-bind="text: title, click: function(data, event) { $parent.reloadMainContent(id, data, event) }"></h6>
+                    <p data-bind="text: summary"></p>
+                    <hr />
+                </div>
             </div>
         </div>
-        <div class="large-7 columns main-column" id="main-content-area" >
+        <div class="large-6 columns main-column scroll-pane" id="main-content-area" >
             <h2 data-bind="html: mainTitle"></h2>
             <div data-bind="html: mainContent"></div>
         </div>

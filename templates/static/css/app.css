@@ -4,11 +4,11 @@
 
 .borderright {
     border-right:solid 1px #dddddd;
-    overflow-y: scroll;
+    overflow: auto;
 }
 
 #main-content-area{
-    overflow-y: scroll;
+    overflow: auto;
 }
 
 .top-bar {
@@ -21,4 +21,8 @@
 
 .feeditem-div{
     cursor: pointer;
+}
+
+.scroll-pane{
+    outline: none;
 }
