@@ -1,4 +1,6 @@
 # Create your views here.
+import os
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils import simplejson
@@ -6,6 +8,8 @@ from django .http import HttpResponse
 
 from feeds.forms import *
 from feeds.models import *
+
+from reader import settings
 
 
 @login_required
@@ -48,8 +52,15 @@ def remove_feed(request, id):
 
 
 @login_required
-def import_feeds(request, id):
-    pass
+def import_feeds(request):
+    if request.method == 'POST':
+        form = ImportForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['file'], request.user.id)
+            return redirect('/')
+    else:
+        form = ImportForm()
+    return render(request, 'feeds/import_feeds.html', {'form': form})
 
 
 @login_required
@@ -99,3 +110,14 @@ def toJSON(obj):
         #eliminate brackets in the beginning and the end
         str_obj = set_str[1:len(set_str)-2]
     return str_obj
+
+
+def handle_uploaded_file(f, user_id):
+    directory = settings.MEDIA_ROOT + '/' + str(user_id) + '/'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    with open(directory + 'subscriptions.xml', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+    # parse file here. maby in new treads

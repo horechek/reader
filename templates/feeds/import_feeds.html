@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row max-row">
+    <div class="large-3 columns">&nbsp;</div>
+    <div class="large-6 columns">
+        <h2>Add new feed</h2>
+        <p class="lead">Your couch.  It is mine.</p>
+        <p>Im a cool paragraph that lives inside of an even cooler modal. Wins</p>
+        <form action="/feeds/import/" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="small button">
+        </form>
+    </div>
+    <div class="large-3 columns"></div>
+</div>
+{% endblock %}
