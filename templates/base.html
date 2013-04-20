@@ -27,7 +27,7 @@
               <!-- Title Area -->
               <li class="name">
                 <h1>
-                  <a href="#">
+                  <a href="/">
                     Reader
                   </a>
                 </h1>
@@ -55,8 +55,9 @@
                             <li><a href="#">See all &rarr;</a></li>
                         </ul> -->
                     </li>
-                    <!-- <li class="divider"></li>
-                    <li><a href="#">Main Item 2</a></li>
+                    <li><a class="active" href="#" data-reveal-id="add-tag-modal">Add Tag</a></li>
+                    <li class="divider"></li>
+                    <!-- <li><a href="#">Main Item 2</a></li>
                     <li class="divider"></li>
                     <li class="has-dropdown">
                         <a href="#">Main Item 3</a>
@@ -72,9 +73,17 @@
                 </ul>
 
                 <!-- Right Nav Section -->
-                <!-- <ul class="right">
+                <ul class="right">
                     <li class="divider"></li>
-                    <li class="has-dropdown">
+                    <li class="has-dropdown"><a class="active " href="#">Settings</a>
+                        <ul class="dropdown">
+                            <li><a href="#">Tags</a></li>
+                            <li><a href="#">Feeds</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Import</a></li>
+                    <li><a href="#">Logout</a></li>
+                    <!-- <li class="has-dropdown">
                         <a href="#">Main Item 4</a>
                         <ul class="dropdown">
                             <li><label>Section Name</label></li>
@@ -119,8 +128,8 @@
                             <li class="divider"></li>
                             <li><a href="#">See all &rarr;</a></li>
                         </ul>
-                    </li>
-                </ul> -->
+                    </li> -->
+                </ul>
             </section>
         </nav>
 
@@ -149,7 +158,24 @@
                     {{ form.tags.errors }}
                     {{ form.tags.label_tag }} {{ form.tags }}
                 </p>
-                <input type="submit">
+                <input type="submit" class="small button">
+            </form>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+        {% endblock %}
+
+        {% block addtagmodal %}
+        <div id="add-tag-modal" class="reveal-modal">
+            <h2>Add new tag</h2>
+            <p class="lead">Your couch.  It is mine.</p>
+            <p>Im a cool paragraph that lives inside of an even cooler modal. Wins</p>
+            <form action="/feeds/add_tag/" method="post">
+                {% csrf_token %}
+                <p>
+                    {{ tagform.title.errors }}
+                    {{ tagform.title.label_tag }} {{ tagform.title }}
+                </p>
+                <input type="submit" class="small button">
             </form>
             <a class="close-reveal-modal">&#215;</a>
         </div>
