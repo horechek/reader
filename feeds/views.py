@@ -1,6 +1,6 @@
 # Create your views here.
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import simplejson
 from django .http import HttpResponse
 
@@ -18,10 +18,28 @@ def add_feed(request):
         form = FeedForm(post_values, initial={'user': request.user.id})
         # form.user = request.user.id
         if form.is_valid():
-            feed = form.save()
+            form.save()
+            return redirect('/')
     else:
         form = FeedForm()
-    return render(request, 'feeds/add.html', {'form': form})
+    return render(request, 'feeds/add_feed.html', {'form': form})
+
+
+@login_required
+def add_tag(request):
+    if request.method == "POST":
+        # data = request.POST
+        post_values = request.POST.copy()
+        post_values['user'] = request.user.id
+        # print data
+        form = TagForm(post_values, initial={'user': request.user.id})
+        # form.user = request.user.id
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    else:
+        form = TagForm()
+    return render(request, 'feeds/add_tag.html', {'form': form})
 
 
 @login_required
@@ -30,12 +48,18 @@ def remove_feed(request, id):
 
 
 @login_required
+def import_feeds(request, id):
+    pass
+
+
+@login_required
 def main(request):
     form = FeedForm()
+    tagform = TagForm()
     tags = Tag.objects.filter(user=request.user.id)
     feeds = Feed.objects.filter(user=request.user.id, tags__isnull=True)
     return render(request, 'feeds/main.html',
-                  {'feeds': feeds, 'tags': tags, 'form': form})
+                  {'feeds': feeds, 'tags': tags, 'form': form, 'tagform': tagform})
 
 
 def load_items(request, feed_id=False, tag_id=False):

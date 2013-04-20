@@ -20,7 +20,7 @@ class DjangoJSONEncoder(JSONEncoder):
 # Create your models here.
 class Tag(models.Model):
     title = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
+    slug = models.CharField(max_length=255, blank=True)
     user = models.ForeignKey(User)
 
     def __unicode__(self):
