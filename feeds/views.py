@@ -68,6 +68,20 @@ def import_feeds(request):
 
 
 @login_required
+def toggle_tag(request, tag_id):
+    success = True
+    try:
+        tag = Tag.objects.get(pk=tag_id)
+    except Tag.DoesNotExist:
+        success = False
+
+    tag.isOpen = not tag.isOpen
+    tag.save()
+    return HttpResponse(simplejson.dumps({'success': success, 'isOpen': tag.isOpen}),
+                        mimetype='application/json')
+
+
+@login_required
 def main(request):
     form = FeedForm()
     tagform = TagForm()
