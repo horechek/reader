@@ -39,6 +39,7 @@
                 <!-- Left Nav Section -->
                 <ul class="left">
                     <li class="divider"></li>
+                    {% if user.is_authenticated %}
                     <li class="/*has-dropdown*/">
                         <a class="active" href="#" data-reveal-id="add-feed-modal">Add Feed</a>
                         <!-- <ul class="dropdown">
@@ -57,6 +58,7 @@
                     </li>
                     <li><a class="active" href="#" data-reveal-id="add-tag-modal">Add Tag</a></li>
                     <li class="divider"></li>
+                    {% endif %}
                     <!-- <li><a href="#">Main Item 2</a></li>
                     <li class="divider"></li>
                     <li class="has-dropdown">
@@ -75,6 +77,7 @@
                 <!-- Right Nav Section -->
                 <ul class="right">
                     <li class="divider"></li>
+                    {% if user.is_authenticated %}
                     <li class="has-dropdown"><a class="active " href="#">Settings</a>
                         <ul class="dropdown">
                             <li><a href="#">Tags</a></li>
@@ -82,7 +85,11 @@
                         </ul>
                     </li>
                     <li><a href="/feeds/import/">Import</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="/logout/">Logout</a></li>
+                    {% else %}
+                    <li><a href="/login/">Login</a></li>
+                    <li><a href="/register/">Register</a></li>
+                    {% endif %}
                     <!-- <li class="has-dropdown">
                         <a href="#">Main Item 4</a>
                         <ul class="dropdown">
