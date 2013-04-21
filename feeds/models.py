@@ -22,6 +22,7 @@ class Tag(models.Model):
     title = models.CharField(max_length=255)
     slug = models.CharField(max_length=255, blank=True)
     user = models.ForeignKey(User)
+    isOpen = models.BooleanField()
 
     def __unicode__(self):
         return self.title

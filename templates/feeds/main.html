@@ -19,13 +19,17 @@
                     ">All</a></li>
                 <li class="divider"></li>
                 {% for tag in tags %}
-                <li><a href="" data-bind="click: 
+                <li><span data-bind="click:
+                    function (data, event) {
+                        toggleTag('{{tag.id}}', data, event)
+                    }
+                    ">+</span><a href="" data-bind="click: 
                         function(data, event) { 
                             reloadItems('/feeds/load_items/tag/{{tag.id}}/', data, event) 
                         }"
                     >{{ tag.title }}</a>
                 <!-- <li class="divider"></li> -->
-                    <ul>
+                    <ul class="sub-ul" {% if not tag.isOpen %}style="display:none"{% endif %}>
                     {% for feed in tag.feeds.all %}
                     <li><a href="#" data-bind="click: 
                         function(data, event) { 

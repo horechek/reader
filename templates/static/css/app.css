@@ -52,3 +52,13 @@ div.main-post-content {
     margin-bottom: 1.25em;
     text-rendering: optimizeLegibility;
 }
+
+div#sidebar-1 .side-nav li a{
+    display: inline ! important;
+}
+
+div#sidebar-1 .side-nav li span{
+    padding-right: 3px;
+    cursor: pointer;
+    color: #777;
+}

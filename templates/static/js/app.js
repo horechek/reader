@@ -5,6 +5,11 @@ $(function(){
     $('.scroll-pane').jScrollPane({
         autoReinitialise:true
     });
+
+    // $(".sub-ul").hide();
+    $(".side-nav li span").click(function(){
+        $(this).next().next().slideToggle();
+    });
 })
 
 function setHeight() {

@@ -57,6 +57,20 @@ function HomeModel(){
             }
         });
     }
+
+    self.toggleTag = function (tag_id, model, event) {
+        $.ajax({
+            url : "/feeds/toggle_tag/" + tag_id + "/",
+            dataType: 'json',
+            method: 'get',
+            success : function(data) {
+            },
+            error: function(data, stats, error) {
+                console.log("login fault: " + data + ", " + 
+                        stats + ", " + error);
+            }
+        });
+    }
 }
 
 $(function(){
