@@ -1,5 +1,6 @@
-# Create your views here.
+# -*- coding: utf-8 -*-
 import os
+import opml
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -56,7 +57,10 @@ def import_feeds(request):
     if request.method == 'POST':
         form = ImportForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_uploaded_file(request.FILES['file'], request.user.id)
+            handle_uploaded_file(
+                request.FILES['file'],
+                request.user,
+                form.cleaned_data['removeOld'])
             return redirect('/')
     else:
         form = ImportForm()
@@ -112,12 +116,59 @@ def toJSON(obj):
     return str_obj
 
 
-def handle_uploaded_file(f, user_id):
-    directory = settings.MEDIA_ROOT + '/' + str(user_id) + '/'
+def handle_uploaded_file(f, user, remove_old=True):
+    remove_old = True
+    directory = settings.MEDIA_ROOT + '/' + str(user.id) + '/'
+    if remove_old:
+        FeedItem.objects.all().delete()
+        Tag.objects.all().delete()
+        Feed.objects.all().delete()
     if not os.path.exists(directory):
         os.makedirs(directory)
     with open(directory + 'subscriptions.xml', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
-    # parse file here. maby in new treads
+    outline = opml.parse(directory + 'subscriptions.xml')
+    for item in outline:
+        if len(item) > 1:
+            print "tag: "+item.text
+            tag = insert_tag(item, user)
+            for parsefeed in item:
+                print "item: "+parsefeed.text
+                insert_feed(parsefeed, user, tag)
+        else:
+            print "tag: "+item.text
+            parsefeed = item
+            insert_feed(parsefeed, user)
+
+
+def insert_feed(parsefeed, user, tag=False):
+    try:
+        try:
+            feed = Feed.objects.get(url=parsefeed.xmlUrl)
+            # update = True
+        except:
+            feed = Feed()
+            # update = False
+        # feed = Feed()
+        feed.url = parsefeed.xmlUrl
+        feed.title = parsefeed.text
+        feed.user = user
+        feed.save()
+        if tag:
+            feed.tags.add(tag)
+        feed.save()
+    except Exception, e:
+        pass
+
+
+def insert_tag(parsetag, user):
+    try:
+        tag = Tag()
+        tag.title = parsetag.text
+        tag.user = user
+        tag.save()
+        return tag
+    except Exception, e:
+        return False

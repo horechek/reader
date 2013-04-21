@@ -13,4 +13,5 @@ class TagForm(forms.ModelForm):
 
 
 class ImportForm(forms.Form):
-    file  = forms.FileField()
+    removeOld = forms.BooleanField(label="Remove Old", required=False)
+    file = forms.FileField()
