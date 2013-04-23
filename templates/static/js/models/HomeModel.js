@@ -14,10 +14,11 @@ function HomeModel(){
     self.mainContent = ko.observable();
     self.mainTitle = ko.observable();
     self.mainDate = ko.observable();
+    self.currentItem = ko.observable(false);
 
-    self.reloadItems = function (url, model, event) {
+    self.reloadItems = function (id, type, model, event) {
         $.ajax({
-            url : url,
+            url : '/feeds/load_items/'+type+'/'+id+'/',
             dataType: 'json',
             method: 'get',
             success : function(data) {
@@ -34,13 +35,12 @@ function HomeModel(){
                         )
                     })(value);
                 })
-                self.items(items);    
+                self.items(items);
             }
         });
     }
 
     self.reloadMainContent = function (itemId, item, event) {
-        console.dir()
         $.ajax({
             url : "/feeds/load_item_content/" + itemId + "/",
             dataType: 'json',
@@ -50,6 +50,19 @@ function HomeModel(){
                 self.mainTitle(data.title)
                 self.mainDate(data.date)
                 item.isRead(data.isRead)
+
+                self.currentItem(itemId)
+                $("#feed-count-span-"+data.feedId).text(data.unreadCount)
+                var tagcount = 0;
+                $("#feed-count-span-"+data.feedId)
+                    .parent('li').parent('ul').find('.span-count')
+                    .each(function(index) {
+                        tagcount += parseInt($(this).text())
+                    })
+                    $("#feed-count-span-"+data.feedId)
+                    .parent('li').parent('ul')
+                    .parent('li').find('.tag-span-count')
+                    .text(tagcount)
             },
             error: function(data, stats, error) {
                 console.log("login fault: " + data + ", " + 
@@ -58,9 +71,38 @@ function HomeModel(){
         });
     }
 
-    self.toggleTag = function (tag_id, model, event) {
+    self.makeUnread = function (item, event) {
+        if (self.currentItem()) {
+            $.ajax({
+                url : "/feeds/make_unread/" + self.currentItem() + "/",
+                dataType: 'json',
+                method: 'get',
+                success : function(data) {
+                    $("#feed-count-span-"+data.feedId).text(data.unreadCount)
+                    var tagcount = 0;
+                    $("#feed-count-span-"+data.feedId)
+                        .parent('li').parent('ul').find('.span-count')
+                        .each(function(index) {
+                            tagcount += parseInt($(this).text())
+                        })
+                        $("#feed-count-span-"+data.feedId)
+                        .parent('li').parent('ul')
+                        .parent('li').find('.tag-span-count')
+                        .text(tagcount)
+
+                        self.reloadItems(data.feedId, 'feed', item, event)
+                },
+                error: function(data, stats, error) {
+                    console.log("login fault: " + data + ", " + 
+                            stats + ", " + error);
+                }
+            });
+        }
+    }
+
+    self.toggleTag = function (tagId, model, event) {
         $.ajax({
-            url : "/feeds/toggle_tag/" + tag_id + "/",
+            url : "/feeds/toggle_tag/" + tagId + "/",
             dataType: 'json',
             method: 'get',
             success : function(data) {

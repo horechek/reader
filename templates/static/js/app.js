@@ -8,12 +8,12 @@ $(function(){
 
     // $(".sub-ul").hide();
     $(".side-nav li span").click(function(){
-        $(this).next().next().slideToggle();
+        $(this).parent('li').find('ul.sub-ul').slideToggle();
     });
 })
 
 function setHeight() {
-    var sidebarHeight = 65;
+    var sidebarHeight = 90
     var height = getWindowSize().height - sidebarHeight;
     // alert(height)
     $(".scroll-pane").height(height);

@@ -110,7 +110,23 @@ def load_item_content(request, item_id):
     return HttpResponse(simplejson.dumps({'content': item.summary,
                                           'title': "<a href='"+item.link+"' target='_blank'>"+item.title+"</a>",
                                           'date': item.date.strftime("%Y-%m-%d"),
-                                          'isRead': item.isRead}),
+                                          'isRead': item.isRead,
+                                          'feedId': item.feed_id,
+                                          'unreadCount': item.feed.get_unred_count()}),
+                        mimetype='application/json')
+
+
+def make_unread(request, item_id):
+    item = FeedItem.objects.get(pk=item_id)
+    item.isRead = False
+    item.save()
+    # json = toJSON(item)
+    return HttpResponse(simplejson.dumps({'content': item.summary,
+                                          'title': "<a href='"+item.link+"' target='_blank'>"+item.title+"</a>",
+                                          'date': item.date.strftime("%Y-%m-%d"),
+                                          'isRead': item.isRead,
+                                          'feedId': item.feed_id,
+                                          'unreadCount': item.feed.get_unred_count()}),
                         mimetype='application/json')
 
 
