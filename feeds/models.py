@@ -27,6 +27,9 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.title
 
+    def get_unred_count(self):
+        return FeedItem.objects.filter(feed__tags=self.id, isRead=0).count()
+
 
 class Feed(models.Model):
     url = models.CharField(max_length=255)
@@ -39,9 +42,12 @@ class Feed(models.Model):
     def __unicode__(self):
         return self.url
 
+    def get_unred_count(self):
+        return FeedItem.objects.filter(feed=self.id, isRead=0).count()
+
 
 class FeedItem(models.Model):
-    feed = models.ForeignKey(Feed)
+    feed = models.ForeignKey(Feed, related_name="items")
     title = models.CharField(max_length=255)
     date = models.DateField()
     summary = models.TextField()

@@ -62,3 +62,6 @@ div#sidebar-1 .side-nav li span{
     cursor: pointer;
     color: #777;
 }
+div.main-options{
+    text-align: right;
+}
