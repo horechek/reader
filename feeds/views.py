@@ -87,8 +87,11 @@ def main(request):
     tagform = TagForm()
     tags = Tag.objects.filter(user=request.user.id)
     feeds = Feed.objects.filter(user=request.user.id, tags__isnull=True)
+    all_notread_count = FeedItem.objects.filter(feed__user=request.user.id, isRead=0).count()
     return render(request, 'feeds/main.html',
-                  {'feeds': feeds, 'tags': tags, 'form': form, 'tagform': tagform})
+                  {'feeds': feeds, 'tags': tags,
+                  'form': form, 'tagform': tagform,
+                  'all_notread_count': all_notread_count})
 
 
 def load_items(request, feed_id=False, tag_id=False):

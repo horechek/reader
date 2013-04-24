@@ -16,7 +16,7 @@
                     function(data, event) { 
                         reloadItems('', '', data, event) 
                     }
-                    ">All</a></li>
+                    ">All</a>&nbsp;<span id="main-count-span" class="tag-span-count">{{all_notread_count}}</span></li>
                 <li class="divider"></li>
                 {% for tag in tags %}
                 <li><span data-bind="click:
@@ -54,10 +54,12 @@
         </div>
         <div class="large-3 columns borderright main-column scroll-pane" id="sidebar-2">
             <div data-bind="foreach: items">
-                <div class="feeditem-div" data-bind="css: { readed: isRead },
+                <div class="feeditem-div" data-bind="
+                                css: { readed: isRead },
                                 click: function(data, event) { 
                                     $parent.reloadMainContent(id, data, event) 
-                                }">
+                                },
+                                attr: {id:'feed-div-'+id}">
                     <h6 data-bind="
                         html: title
                         "></h6>

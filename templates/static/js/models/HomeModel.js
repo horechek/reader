@@ -21,6 +21,25 @@ function HomeModel(){
     self.currentType = ko.observable(false);
     self.currentListId = ko.observable(false);
 
+    function updateTagCount(feedElemId) {
+         var tagcount = 0;
+        $(feedElemId)
+            .parent('li').parent('ul').find('.span-count')
+            .each(function(index) {
+                tagcount += parseInt($(this).text())
+            })
+        $(feedElemId)
+            .parent('li').parent('ul')
+            .parent('li').find('.tag-span-count')
+            .text(tagcount)
+    }
+
+    function updateMainCount() {
+        var all_count = 0
+        // go to server
+        $("#main-count-span").text(all_count)
+    }
+
     self.showAll = function (model, event) {
         $.ajax({
             url : '/accounts/set_show/0/',
@@ -86,16 +105,8 @@ function HomeModel(){
 
                 self.currentItem(itemId)
                 $("#feed-count-span-"+data.feedId).text(data.unreadCount)
-                var tagcount = 0;
-                $("#feed-count-span-"+data.feedId)
-                    .parent('li').parent('ul').find('.span-count')
-                    .each(function(index) {
-                        tagcount += parseInt($(this).text())
-                    })
-                    $("#feed-count-span-"+data.feedId)
-                    .parent('li').parent('ul')
-                    .parent('li').find('.tag-span-count')
-                    .text(tagcount)
+                updateTagCount("#feed-count-span-"+data.feedId)
+                updateMainCount()
             },
             error: function(data, stats, error) {
                 console.log("login fault: " + data + ", " + 
@@ -113,17 +124,9 @@ function HomeModel(){
                 success : function(data) {
                     $("#feed-count-span-"+data.feedId).text(data.unreadCount)
                     var tagcount = 0;
-                    $("#feed-count-span-"+data.feedId)
-                        .parent('li').parent('ul').find('.span-count')
-                        .each(function(index) {
-                            tagcount += parseInt($(this).text())
-                        })
-                        $("#feed-count-span-"+data.feedId)
-                        .parent('li').parent('ul')
-                        .parent('li').find('.tag-span-count')
-                        .text(tagcount)
-
-                        self.reloadItems(data.feedId, 'feed', item, event)
+                    updateTagCount("#feed-count-span-"+data.feedId)
+                    updateMainCount()
+                    $("#feed-div-"+self.currentItem()).removeClass('readed')
                 },
                 error: function(data, stats, error) {
                     console.log("login fault: " + data + ", " + 
