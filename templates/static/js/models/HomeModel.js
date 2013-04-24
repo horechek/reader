@@ -32,7 +32,6 @@ function HomeModel(){
     }
 
     function updateMainCount() {
-        var all_count = 0
         $.ajax({
             url : '/feeds/get_unread_count/',
             dataType: 'json',
@@ -107,7 +106,7 @@ function HomeModel(){
                 item.isRead(data.isRead)
 
                 self.currentItem(itemId)
-                // $("#feed-count-span-"+data.feedId).text(data.unreadCount)
+                
                 updateTagCount("#feed-count-span-"+data.feedId)
                 updateMainCount()
             },
