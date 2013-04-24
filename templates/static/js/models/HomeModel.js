@@ -1,6 +1,3 @@
-var FEED_TYPE = 'feed';
-var TAG_TYPE = 'tag';
-
 function Item(id, title, summary, isRead, date) {
     this.id = id
     this.title = title;
@@ -36,8 +33,14 @@ function HomeModel(){
 
     function updateMainCount() {
         var all_count = 0
-        // go to server
-        $("#main-count-span").text(all_count)
+        $.ajax({
+            url : '/feeds/get_unread_count/',
+            dataType: 'json',
+            method: 'get',
+            success : function(data) {
+                $("#main-count-span").text(data.count) 
+            }
+        });
     }
 
     self.showAll = function (model, event) {
@@ -104,7 +107,7 @@ function HomeModel(){
                 item.isRead(data.isRead)
 
                 self.currentItem(itemId)
-                $("#feed-count-span-"+data.feedId).text(data.unreadCount)
+                // $("#feed-count-span-"+data.feedId).text(data.unreadCount)
                 updateTagCount("#feed-count-span-"+data.feedId)
                 updateMainCount()
             },
@@ -126,7 +129,12 @@ function HomeModel(){
                     var tagcount = 0;
                     updateTagCount("#feed-count-span-"+data.feedId)
                     updateMainCount()
-                    $("#feed-div-"+self.currentItem()).removeClass('readed')
+
+                    for (var i = 0; i < self.items().length; i++ ) {
+                        if (self.items()[i].id == self.currentItem()) {
+                            self.items()[i].isRead(0)
+                        }
+                    }
                 },
                 error: function(data, stats, error) {
                     console.log("login fault: " + data + ", " + 
