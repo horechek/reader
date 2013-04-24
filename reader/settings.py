@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'feeds',
+    'accounts',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -135,6 +136,7 @@ INSTALLED_APPS = (
 
 LOGIN_URL = '/login/'
 
+AUTH_PROFILE_MODULE = 'accounts.Profile'
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

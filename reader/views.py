@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 
 from reader.forms import RegisterForm, LoginForm
 
+
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -19,6 +20,7 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'reader/register.html', {'form': form})
+
 
 def login(request):
     message = False
@@ -40,9 +42,9 @@ def login(request):
         form = LoginForm()
 
     return render(request, 'reader/login.html', {
-                    'form': form,
-                    'message':  message
-                })
+                  'form': form,
+                  'message':  message})
+
 
 def logout(request):
     _logout(request)

@@ -20,5 +20,6 @@ urlpatterns = patterns('',
     url(r'^login/$', 'reader.views.login', name='login'),
     url(r'^logout/$', 'reader.views.logout', name='logout'),
     url(r'^feeds/', include('feeds.urls')),
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes':True}),
 )
