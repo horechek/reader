@@ -1,3 +1,6 @@
+var FEED_TYPE = 'feed';
+var TAG_TYPE = 'tag';
+
 function Item(id, title, summary, isRead, date) {
     this.id = id
     this.title = title;
@@ -15,6 +18,34 @@ function HomeModel(){
     self.mainTitle = ko.observable();
     self.mainDate = ko.observable();
     self.currentItem = ko.observable(false);
+    self.currentType = ko.observable(false);
+    self.currentListId = ko.observable(false);
+
+    self.showAll = function (model, event) {
+        $.ajax({
+            url : '/accounts/set_show/0/',
+            dataType: 'json',
+            method: 'get',
+            success : function(data) {
+               if (self.currentType() && self.currentListId()) {
+                    self.reloadItems(self.currentListId(), self.currentType(), model, event)
+                } 
+            }
+        });
+    }
+
+    self.showUnread = function (model, event) {
+        $.ajax({
+            url : '/accounts/set_show/1/',
+            dataType: 'json',
+            method: 'get',
+            success : function(data) {
+                if (self.currentType() && self.currentListId()) {
+                    self.reloadItems(self.currentListId(), self.currentType(), model, event)
+                }
+            }
+        });
+    }
 
     self.reloadItems = function (id, type, model, event) {
         $.ajax({
@@ -35,6 +66,8 @@ function HomeModel(){
                         )
                     })(value);
                 })
+                self.currentType(type);
+                self.currentListId(id);
                 self.items(items);
             }
         });

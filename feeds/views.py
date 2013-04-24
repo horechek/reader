@@ -5,7 +5,7 @@ import opml
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils import simplejson
-from django .http import HttpResponse
+from django.http import HttpResponse
 
 from feeds.forms import *
 from feeds.models import *
@@ -92,12 +92,17 @@ def main(request):
 
 
 def load_items(request, feed_id=False, tag_id=False):
+
+    items = FeedItem.objects.filter(feed__user=request.user.id)
     if feed_id:
-        items = FeedItem.objects.filter(feed=feed_id).order_by('date').reverse()
+        items = items.filter(feed=feed_id)
     elif tag_id:
-        items = FeedItem.objects.filter(feed__user=request.user.id, feed__tags=tag_id).order_by('date').reverse()
-    else:
-        items = FeedItem.objects.filter(feed__user=request.user.id).order_by('date').reverse()
+        items = items.filter(feed__tags=tag_id)
+
+    profile = request.user.get_profile()
+    if profile.showUnread:
+        items = items.exclude(isRead=1)
+    items = items.order_by('date').reverse()
     json = toJSON(items)
     return HttpResponse(json, mimetype='application/json')
 
@@ -121,9 +126,10 @@ def make_unread(request, item_id):
     item.isRead = False
     item.save()
     # json = toJSON(item)
-    return HttpResponse(simplejson.dumps({'content': item.summary,
-                                          'title': "<a href='"+item.link+"' target='_blank'>"+item.title+"</a>",
-                                          'date': item.date.strftime("%Y-%m-%d"),
+    return HttpResponse(simplejson.dumps({
+                                          # 'content': item.summary,
+                                          # 'title': "<a href='"+item.link+"' target='_blank'>"+item.title+"</a>",
+                                          # 'date': item.date.strftime("%Y-%m-%d"),
                                           'isRead': item.isRead,
                                           'feedId': item.feed_id,
                                           'unreadCount': item.feed.get_unred_count()}),
