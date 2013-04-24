@@ -71,7 +71,7 @@ def import_feeds(request):
 def toggle_tag(request, tag_id):
     success = True
     try:
-        tag = Tag.objects.get(pk=tag_id)
+        tag = Tag.objects.get(pk=tag_id, user=request.user.id)
     except Tag.DoesNotExist:
         success = False
 
@@ -129,18 +129,16 @@ def make_unread(request, item_id):
     item.isRead = False
     item.save()
     # json = toJSON(item)
-    return HttpResponse(simplejson.dumps({
-                                          # 'content': item.summary,
-                                          # 'title': "<a href='"+item.link+"' target='_blank'>"+item.title+"</a>",
-                                          # 'date': item.date.strftime("%Y-%m-%d"),
-                                          'isRead': item.isRead,
+    return HttpResponse(simplejson.dumps({'isRead': item.isRead,
                                           'feedId': item.feed_id,
                                           'unreadCount': item.feed.get_unred_count()}),
                         mimetype='application/json')
 
 
-def set_item_read(request):
-    pass
+def get_unread_count(request):
+    all_notread_count = FeedItem.objects.filter(feed__user=request.user.id, isRead=0).count()
+    return HttpResponse(simplejson.dumps({'count': all_notread_count}),
+                        mimetype='application/json')
 
 
 def toJSON(obj):
