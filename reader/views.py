@@ -4,22 +4,29 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as _login
 from django.contrib.auth import logout as _logout
 from django.http import HttpResponseRedirect
+from django.db import IntegrityError
 
 from reader.forms import RegisterForm, LoginForm
 
 
 def register(request):
+    message = ''
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             email = form.cleaned_data['email']
-            user = User.objects.create_user(username, email, password)
-            user.save()
+            try:
+                user = User.objects.create_user(username, email, password)
+                user.save()
+                HttpResponseRedirect('/')
+            except IntegrityError:
+                message = 'Error creating user'
     else:
         form = RegisterForm()
-    return render(request, 'reader/register.html', {'form': form})
+    return render(request, 'reader/register.html',
+                  {'form': form, 'message': message})
 
 
 def login(request):
