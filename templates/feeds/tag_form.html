@@ -1,0 +1,11 @@
+<h2>Add new tag</h2>
+<p class="lead">Insert normal tag title.  Pres button.</p>
+<p>Wins.</p>
+<form action="/feeds/add_tag/" method="post">
+    {% csrf_token %}
+    <p>
+        {{ form.title.errors }}
+        {{ form.title.label_tag }} {{ form.title }}
+    </p>
+    <input type="submit" class="small button">
+</form>
