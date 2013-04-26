@@ -157,7 +157,7 @@ def handle_uploaded_file(f, user, remove_old=True):
     remove_old = True
     directory = settings.MEDIA_ROOT + '/' + str(user.id) + '/'
     if remove_old:
-        FeedItem.objects.filter(feed_user=user.id).delete()
+        FeedItem.objects.filter(feed__user=user.id).delete()
         Tag.objects.filter(user=user.id).delete()
         Feed.objects.filter(user=user.id).delete()
     if not os.path.exists(directory):
