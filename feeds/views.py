@@ -169,7 +169,7 @@ def handle_uploaded_file(f, user, remove_old=True):
     outline = opml.parse(directory + 'subscriptions.xml')
     for item in outline:
         if len(item) > 1:
-            print "tag: "+item.text
+            # print "tag: "+item.text
             tag = insert_tag(item, user)
             for parsefeed in item:
                 # print "item: "+parsefeed.text
