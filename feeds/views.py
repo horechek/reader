@@ -172,10 +172,10 @@ def handle_uploaded_file(f, user, remove_old=True):
             print "tag: "+item.text
             tag = insert_tag(item, user)
             for parsefeed in item:
-                print "item: "+parsefeed.text
+                # print "item: "+parsefeed.text
                 insert_feed(parsefeed, user, tag)
         else:
-            print "tag: "+item.text
+            # print "tag: "+item.text
             parsefeed = item
             insert_feed(parsefeed, user)
 
