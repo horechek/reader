@@ -157,9 +157,9 @@ def handle_uploaded_file(f, user, remove_old=True):
     remove_old = True
     directory = settings.MEDIA_ROOT + '/' + str(user.id) + '/'
     if remove_old:
-        FeedItem.objects.all().delete()
-        Tag.objects.all().delete()
-        Feed.objects.all().delete()
+        FeedItem.objects.filter(user=user).delete()
+        Tag.objects.filter(user=user).delete()
+        Feed.objects.filter(user=user).delete()
     if not os.path.exists(directory):
         os.makedirs(directory)
     with open(directory + 'subscriptions.xml', 'wb+') as destination:
