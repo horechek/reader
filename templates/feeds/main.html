@@ -27,7 +27,7 @@
                         function(data, event) { 
                             reloadItems('{{tag.id}}', 'tag', data, event) 
                         }"
-                    >{{ tag.title }}</a>&nbsp;<span id="tag-count-span-{{tag.id}}" class="tag-span-count">{{tag.get_unred_count}}</span>
+                    >{{ tag.title }}</a>&nbsp;<span class="tag-count-span-{{tag.id}} tag-span-count">{{tag.get_unred_count}}</span>
                 <!-- <li class="divider"></li> -->
                     <ul class="sub-ul" {% if not tag.isOpen %}style="display:none"{% endif %}>
                     {% for feed in tag.feeds.all %}
@@ -35,7 +35,7 @@
                         function(data, event) { 
                             reloadItems('{{feed.id}}', 'feed', data, event) 
                         }
-                    ">{{feed.title}}</a>&nbsp;<span id="feed-count-span-{{feed.id}}" class="span-count">{{feed.get_unred_count}}</span></li>
+                    ">{{feed.title}}</a>&nbsp;<span class="feed-count-span-{{feed.id}} span-count">{{feed.get_unred_count}}</span></li>
                     {% endfor %}
                     </ul>
                 </li>
