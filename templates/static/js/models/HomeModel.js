@@ -18,14 +18,15 @@ function HomeModel(){
     self.currentType = ko.observable(false);
     self.currentListId = ko.observable(false);
 
-    function updateTagCount(feedElemId) {
+    function updateTagCount(feedElemClass, unreadCount) {
+        $(feedElemClass).text(unreadCount)
          var tagcount = 0;
-        $(feedElemId)
+        $(feedElemClass)
             .parent('li').parent('ul').find('.span-count')
             .each(function(index) {
                 tagcount += parseInt($(this).text())
             })
-        $(feedElemId)
+        $(feedElemClass)
             .parent('li').parent('ul')
             .parent('li').find('.tag-span-count')
             .text(tagcount)
@@ -107,7 +108,7 @@ function HomeModel(){
 
                 self.currentItem(itemId)
                 
-                updateTagCount("#feed-count-span-"+data.feedId)
+                updateTagCount(".feed-count-span-"+data.feedId, data.unreadCount)
                 updateMainCount()
             },
             error: function(data, stats, error) {
@@ -124,9 +125,7 @@ function HomeModel(){
                 dataType: 'json',
                 method: 'get',
                 success : function(data) {
-                    $("#feed-count-span-"+data.feedId).text(data.unreadCount)
-                    var tagcount = 0;
-                    updateTagCount("#feed-count-span-"+data.feedId)
+                    updateTagCount(".feed-count-span-"+data.feedId, data.unreadCount)
                     updateMainCount()
 
                     for (var i = 0; i < self.items().length; i++ ) {
