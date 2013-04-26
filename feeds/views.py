@@ -179,6 +179,9 @@ def handle_uploaded_file(f, user, remove_old=True):
             parsefeed = item
             insert_feed(parsefeed, user)
 
+    from feeds.tasks import update_feed
+    update_feed(user)
+
 
 def insert_feed(parsefeed, user, tag=False):
     try:
