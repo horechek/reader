@@ -114,8 +114,11 @@ def load_item_content(request, item_id):
     item = FeedItem.objects.get(pk=item_id)
     item.isRead = True
     item.save()
-    # json = toJSON(item)
-    return HttpResponse(simplejson.dumps({'content': item.summary,
+    # if item.content:
+    #     content = item.content
+    # else:
+    content = item.summary
+    return HttpResponse(simplejson.dumps({'content': content,
                                           'title': "<a href='"+item.link+"' target='_blank'>"+item.title+"</a>",
                                           'date': item.date.strftime("%Y-%m-%d"),
                                           'isRead': item.isRead,
