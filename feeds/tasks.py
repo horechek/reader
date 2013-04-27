@@ -11,6 +11,7 @@ def update_feed(user):
 
 
 # @periodic_task(run_every=crontab(hour=0, minute=30))
+@task
 def update_all_feeds():
     for user in User.objects.all():
             update_feeds_by_user(user)
