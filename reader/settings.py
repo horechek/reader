@@ -1,5 +1,11 @@
 # Django settings for reader project.
 import os
+import djcelery
+
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+
+
+djcelery.setup_loader()
 
 DIRNAME = os.path.dirname(__file__)
 
@@ -86,6 +92,15 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.contrib.messages.context_processors.messages",
+    "django.core.context_processors.request"
+)
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'u6a&-19ncxsm$20=h)g9drw@f4)k*zgp9310pd5pgiv(b+t9%0'
 
@@ -130,6 +145,8 @@ INSTALLED_APPS = (
     'accounts',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'djcelery',
+    'celerytest'
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -142,6 +159,27 @@ AUTH_PROFILE_MODULE = 'accounts.Profile'
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
+
+# BROKER_HOST = "localhost"
+# BROKER_PORT = 5672
+# BROKER_USER = "root"
+# BROKER_PASSWORD = "securepassword"
+# BROKER_VHOST = "reader"
+
+BROKER_URL = 'amqp://root:securepassword@localhost:5672/reader'
+
+from datetime import timedelta
+
+CELERYBEAT_SCHEDULE = {
+    'add-every-30-minutes': {
+        'task': 'feeds.tasks.update_all_feeds',
+        'schedule': timedelta(minutes=30),
+        # 'args': (16, 16)
+    },
+}
+
+CELERY_TIMEZONE = 'GMT'
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

@@ -1,1 +1,4 @@
 *.pyc
+djcelery.schedulers.DatabaseScheduler
+celerymon.pid
+celerybeat-schedule
