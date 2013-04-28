@@ -9,7 +9,7 @@ from django.http import HttpResponse
 
 from feeds.forms import *
 from feeds.models import *
-from feeds.tasks import update_feeds, update_new_feed
+from feeds.tasks import update_feeds, update_new_feed, add_item_to_feed
 
 from reader import settings
 
@@ -26,6 +26,7 @@ def add_feed(request):
         if form.is_valid():
             feed = form.save()
             update_new_feed(feed)
+            add_item_to_feed(feed)
             return redirect('/')
     else:
         form = FeedForm()
