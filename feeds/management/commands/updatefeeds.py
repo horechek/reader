@@ -38,7 +38,7 @@ def update_feeds_by_user(user):
         print feed.title + ":" + feed.url
         if 'items' in rss_feed:
             for rss_item in rss_feed['items']:
-                set_new_data_in_feed_item(feed. rss_item)
+                set_new_data_in_feed_item(feed, rss_item)
 
 
 def set_new_data_in_feed(feed, rss_feed):
