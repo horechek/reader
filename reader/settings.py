@@ -171,9 +171,9 @@ BROKER_URL = 'amqp://root:securepassword@localhost:5672/reader'
 from datetime import timedelta
 
 CELERYBEAT_SCHEDULE = {
-    'add-every-30-minutes': {
+    'add-every-60-minutes': {
         'task': 'feeds.tasks.update_all_feeds',
-        'schedule': timedelta(minutes=30),
+        'schedule': timedelta(minutes=60),
         # 'args': (16, 16)
     },
 }
