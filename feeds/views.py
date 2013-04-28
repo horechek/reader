@@ -23,7 +23,8 @@ def add_feed(request):
         form = FeedForm(post_values, initial={'user': request.user.id})
         # form.user = request.user.id
         if form.is_valid():
-            form.save()
+            feed = form.save()
+            update_new_feed(feed)
             return redirect('/')
     else:
         form = FeedForm()
