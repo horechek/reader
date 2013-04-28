@@ -3,9 +3,7 @@ from celery.task.schedules import crontab
 from django.contrib.auth.models import User
 import feedparser
 
-from feeds.management.commands.updatefeeds import update_feeds_by_user
-from feeds.management.commands.updatefeeds import set_new_data_in_feed
-from feeds.management.commands.updatefeeds import add_new_item_to_feed
+from feeds.management.commands.updatefeeds import update_feeds_by_user, set_new_data_in_feed, add_new_item_to_feed
 
 
 @task()
