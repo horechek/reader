@@ -8,7 +8,7 @@ from feeds.management.commands.updatefeeds import set_new_data_in_feed
 
 
 @task
-def update_feed(user):
+def update_feeds(user):
     update_feeds_by_user(user)
 
 

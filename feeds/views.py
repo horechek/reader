@@ -9,7 +9,7 @@ from django.http import HttpResponse
 
 from feeds.forms import *
 from feeds.models import *
-from feeds.tasks import update_feed, update_new_feed
+from feeds.tasks import update_feeds, update_new_feed
 
 from reader import settings
 
@@ -183,7 +183,7 @@ def handle_uploaded_file(f, user, remove_old=True):
             # print "tag: "+item.text
             parsefeed = item
             insert_feed(parsefeed, user)
-    update_feed(user)
+    update_feeds(user)
 
 
 def insert_feed(parsefeed, user, tag=False):
