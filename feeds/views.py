@@ -51,8 +51,10 @@ def add_tag(request):
 
 
 @login_required
-def remove_feed(request, id):
-    pass
+def remove_feed(request, feed_id):
+    Feed.objects.get(id=feed_id, user=request.user.id).delete()
+    request.flash['info'] = 'Unsubscribed ok'
+    return redirect('/')
 
 
 @login_required
@@ -86,14 +88,11 @@ def toggle_tag(request, tag_id):
 
 @login_required
 def main(request):
-    form = FeedForm()
-    tagform = TagForm()
     tags = Tag.objects.filter(user=request.user.id)
     feeds = Feed.objects.filter(user=request.user.id, tags__isnull=True)
     all_notread_count = FeedItem.objects.filter(feed__user=request.user.id, isRead=0).count()
     return render(request, 'feeds/main.html',
                   {'feeds': feeds, 'tags': tags,
-                  'form': form, 'tagform': tagform,
                   'all_notread_count': all_notread_count})
 
 
@@ -134,7 +133,6 @@ def make_unread(request, item_id):
     item = FeedItem.objects.get(pk=item_id)
     item.isRead = False
     item.save()
-    # json = toJSON(item)
     return HttpResponse(simplejson.dumps({'isRead': item.isRead,
                                           'feedId': item.feed_id,
                                           'unreadCount': item.feed.get_unred_count()}),

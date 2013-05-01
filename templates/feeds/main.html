@@ -35,7 +35,7 @@
                         function(data, event) { 
                             reloadItems('{{feed.id}}', 'feed', data, event) 
                         }
-                    ">{{feed.title}}</a>&nbsp;<span class="feed-count-span-{{feed.id}} span-count">{{feed.get_unred_count}}</span></li>
+                    ">{{feed.title}}</a>&nbsp;<span class="feed-count-span-{{feed.id}} span-count">{{feed.get_unred_count}}</span><a href="/feeds/remove/{{feed.id}}">x</a></li>
                     {% endfor %}
                     </ul>
                 </li>
@@ -47,7 +47,7 @@
                     function(data, event) { 
                         reloadItems('{{feed.id}}', 'feed', data, event) 
                     }
-                ">{{feed.title}}</a>&nbsp;<span id="feed-count-span-{{feed.id}}" class="span-count">{{feed.get_unred_count}}</span></li>
+                ">{{feed.title}}</a>&nbsp;<span id="feed-count-span-{{feed.id}}" class="span-count">{{feed.get_unred_count}}</span><a href="/feeds/remove/{{feed.id}}">x</a></li>
                 {% endfor %}
             </ul>
             </div>
