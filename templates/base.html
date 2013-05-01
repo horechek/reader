@@ -140,6 +140,17 @@
         <!-- End Header and Nav -->
         <!-- Main Grid Section -->
         <!-- End Grid Section -->
+        {% comment %}
+        {% if flash %}
+        <!-- There's one or more flash-scoped objects -->
+
+            {% for key, value in flash.items %}
+                <div class="flash_{{ key }}">
+                    <p>{{ value }}</p>
+                </div>
+            {% endfor %}
+        {% endif %} 
+        {% endcomment %}
         {% block content %}
         {% endblock %}
         {% load feed_form tag_form %}

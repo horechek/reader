@@ -98,7 +98,8 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.contrib.messages.context_processors.messages",
-    "django.core.context_processors.request"
+    "django.core.context_processors.request",
+    "djangoflash.context_processors.flash"
 )
 
 # Make this unique, and don't share it with anybody.
@@ -117,6 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'djangoflash.middleware.FlashMiddleware'
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -160,18 +162,14 @@ AUTH_PROFILE_MODULE = 'accounts.Profile'
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
 
-# BROKER_HOST = "localhost"
-# BROKER_PORT = 5672
-# BROKER_USER = "root"
-# BROKER_PASSWORD = "securepassword"
-# BROKER_VHOST = "reader"
-
 BROKER_URL = 'amqp://root:securepassword@localhost:5672/reader'
+
+FLASH_STORAGE = 'session'
 
 from datetime import timedelta
 
 CELERYBEAT_SCHEDULE = {
-    'add-every-60-minutes': {
+    'add-every-120-minutes': {
         'task': 'feeds.tasks.update_all_feeds',
         'schedule': timedelta(minutes=60),
         # 'args': (16, 16)

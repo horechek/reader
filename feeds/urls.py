@@ -2,6 +2,7 @@ from django.conf.urls import url, patterns, include
 
 urlpatterns = patterns('feeds.views',
     url(r'add/$', 'add_feed', name='add_feed'),
+    url(r'remove/(?P<feed_id>[\d]*)/$', 'remove_feed', name='remove_feed'),
     url(r'add_tag/$', 'add_tag', name='add_tag'),
     url(r'import/$', 'import_feeds', name='import_feeds'),
     url(r'get_unread_count/$', 'get_unread_count', name='get_unread_count'),
