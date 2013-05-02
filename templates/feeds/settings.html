@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for tag in tags %}
+    <li><a href="#">{{ tag.title }}</a>
+    <!-- <li class="divider"></li> -->
+        <ul>
+        {% for feed in tag.feeds.all %}
+        <li><a href="#">{{feed.title}}</a></li>
+        {% endfor %}
+        </ul>
+    </li>
+    <!-- <li class="divider"> -->
+    {% endfor %}
+
+    {% for feed in feeds %}
+    <li><a href="#">{{feed.title}}</a></li>
+    {% endfor %}
+{% endblock %}

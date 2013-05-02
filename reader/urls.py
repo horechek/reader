@@ -16,9 +16,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^register/$', 'reader.views.register', name='register'),
-    url(r'^login/$', 'reader.views.login', name='login'),
-    url(r'^logout/$', 'reader.views.logout', name='logout'),
+    url(r'^register/$', 'accounts.views.register', name='register'),
+    url(r'^login/$', 'accounts.views.login', name='login'),
+    url(r'^logout/$', 'accounts.views.logout', name='logout'),
     url(r'^feeds/', include('feeds.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes':True}),
