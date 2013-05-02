@@ -17,12 +17,9 @@ from reader import settings
 @login_required
 def add_feed(request):
     if request.method == "POST":
-        # data = request.POST
         post_values = request.POST.copy()
         post_values['user'] = request.user.id
-        # print data
         form = FeedForm(post_values, initial={'user': request.user.id})
-        # form.user = request.user.id
         if form.is_valid():
             feed = form.save()
             update_new_feed(feed)
@@ -34,14 +31,23 @@ def add_feed(request):
 
 
 @login_required
+def edit_feed(request, feed_id):
+    pass
+
+
+@login_required
+def remove_feed(request, feed_id):
+    Feed.objects.get(id=feed_id, user=request.user.id).delete()
+    request.flash['info'] = 'Unsubscribed ok'
+    return redirect('/')
+
+
+@login_required
 def add_tag(request):
     if request.method == "POST":
-        # data = request.POST
         post_values = request.POST.copy()
         post_values['user'] = request.user.id
-        # print data
         form = TagForm(post_values, initial={'user': request.user.id})
-        # form.user = request.user.id
         if form.is_valid():
             form.save()
             return redirect('/')
@@ -51,10 +57,20 @@ def add_tag(request):
 
 
 @login_required
-def remove_feed(request, feed_id):
-    Feed.objects.get(id=feed_id, user=request.user.id).delete()
-    request.flash['info'] = 'Unsubscribed ok'
-    return redirect('/')
+def edit_tag(request, tag_id):
+    pass
+
+
+@login_required
+def remove_tag(request, tag_id):
+    pass
+
+
+@login_required
+def settings_feeds(request):
+    tags = Tag.objects.filter(user=request.user.id)
+    feeds = Feed.objects.filter(user=request.user.id, tags__isnull=True)
+    return render(request, 'feeds/settings.html', {'tags': tags, 'feeds': feeds})
 
 
 @login_required
@@ -149,10 +165,8 @@ def toJSON(obj):
     if isinstance(obj, QuerySet):
         return simplejson.dumps(obj, cls=DjangoJSONEncoder)
     if isinstance(obj, models.Model):
-        #do the same as above by making it a queryset first
         set_obj = [obj]
         set_str = simplejson.dumps(simplejson.loads(serialize('json', set_obj)))
-        #eliminate brackets in the beginning and the end
         str_obj = set_str[1:len(set_str)-2]
     return str_obj
 
@@ -173,13 +187,10 @@ def handle_uploaded_file(f, user, remove_old=True):
     outline = opml.parse(directory + 'subscriptions.xml')
     for item in outline:
         if len(item) > 1:
-            # print "tag: "+item.text
             tag = insert_tag(item, user)
             for parsefeed in item:
-                # print "item: "+parsefeed.text
                 insert_feed(parsefeed, user, tag)
         else:
-            # print "tag: "+item.text
             parsefeed = item
             insert_feed(parsefeed, user)
     update_feeds(user)
@@ -189,11 +200,8 @@ def insert_feed(parsefeed, user, tag=False):
     try:
         try:
             feed = Feed.objects.get(url=parsefeed.xmlUrl)
-            # update = True
         except:
             feed = Feed()
-            # update = False
-        # feed = Feed()
         feed.url = parsefeed.xmlUrl
         feed.title = parsefeed.text
         feed.user = user
