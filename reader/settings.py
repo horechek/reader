@@ -171,7 +171,7 @@ from datetime import timedelta
 CELERYBEAT_SCHEDULE = {
     'add-every-120-minutes': {
         'task': 'feeds.tasks.update_all_feeds',
-        'schedule': timedelta(minutes=60),
+        'schedule': timedelta(minutes=120),
         # 'args': (16, 16)
     },
 }
