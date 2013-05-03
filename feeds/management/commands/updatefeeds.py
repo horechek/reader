@@ -42,7 +42,8 @@ def update_feeds_by_user(user):
 
 def add_new_item_to_feed(feed, rss_feed):
     for rss_item in rss_feed['items']:
-        set_new_data_in_feed_item(feed, rss_item)
+        if not set_new_data_in_feed_item(feed, rss_item):
+            return
 
 
 def set_new_data_in_feed(feed, rss_feed):
@@ -69,7 +70,7 @@ def set_new_data_in_feed_item(feed, rss_item):
         update = False
 
     if update:
-        return
+        return False
     try:
             # print rss_item
         if 'link' in rss_item:
@@ -103,3 +104,5 @@ def set_new_data_in_feed_item(feed, rss_item):
         article.save()
     except Exception, e:
         pass
+
+    return True
