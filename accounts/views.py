@@ -64,8 +64,7 @@ def login(request):
         form = LoginForm()
 
     return render(request, 'accounts/login.html', {
-                  'form': form,
-                  'message':  message})
+                  'form': form, 'message':  message})
 
 
 def logout(request):
