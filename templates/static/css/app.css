@@ -37,6 +37,9 @@
 
 .feeditem-div{
     font-size: 12px;
+    height: 98px;
+    padding: 10px;
+    border-bottom: 1px solid #e6e6e6;
 }
 
 .date-div{
@@ -74,5 +77,21 @@ div.bottom-options{
 }
 
 div.bottom-options a{
-    padding-left: 50px;
+    /*padding-left: 50px;*/
+}
+
+.filter-bar {
+    position: relative;
+    height: 45px;
+    background: #f5f5f5;
+    padding: 12px 14px 11px 14px;
+    border-top: 1px solid #ddd;
+}
+
+.isetSelected {
+    background: #f5f5f5;
+    box-shadow: inset 1px 1px 3px #ddd;
+}
+.feeds-navigation{
+    padding: 10px;
 }

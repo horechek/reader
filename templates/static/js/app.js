@@ -13,7 +13,7 @@ $(function(){
 })
 
 function setHeight() {
-    var sidebarHeight = 90
+    var sidebarHeight = 115
     var height = getWindowSize().height - sidebarHeight;
     // alert(height)
     $(".scroll-pane").height(height);
