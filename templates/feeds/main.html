@@ -69,9 +69,11 @@
             </div>
         </div>
         <div class="large-6 columns main-column scroll-pane" id="main-content-area" >
-            <h2 data-bind="html: mainTitle"></h2>
-            <div class="date-div" data-bind="html: mainDate"></div>
-            <div data-bind="html: mainContent" class="main-post-content"></div>
+            <div class="item-content"> 
+                <h2 data-bind="html: mainTitle"></h2>
+                <div class="date-div" data-bind="html: mainDate"></div>
+                <div data-bind="html: mainContent" class="main-post-content"></div>
+            </div>
             <!-- data-bind="visible: shouldShowMessage" -->
         </div>
     </div>
