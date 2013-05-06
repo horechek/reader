@@ -10,14 +10,13 @@
 {% block content %}
     <div class="row max-row">
         <div class="large-2 columns borderright main-column scroll-pane" id="sidebar-1">
-            <div>
+            <div class="feeds-navigation">
             <ul class="side-nav">
                 <li><a href="#" data-bind="click: 
                     function(data, event) { 
                         reloadItems('', '', data, event) 
                     }
                     ">All</a>&nbsp;<span id="main-count-span" class="tag-span-count">{{all_notread_count}}</span></li>
-                <li class="divider"></li>
                 {% for tag in tags %}
                 <li><span data-bind="click:
                     function (data, event) {
@@ -39,7 +38,6 @@
                     {% endfor %}
                     </ul>
                 </li>
-                <li class="divider"></li>
                 {% endfor %}
 
                 {% for feed in feeds %}
@@ -54,8 +52,9 @@
         </div>
         <div class="large-3 columns borderright main-column scroll-pane" id="sidebar-2">
             <div data-bind="foreach: items">
-                <div class="feeditem-div" data-bind="
-                                css: { readed: isRead },
+                <!-- item-selected -->
+                <div class="feeditem-div  " data-bind="
+                                css: { readed: isRead, isetSelected:($parent.currentItem() == id) },
                                 click: function(data, event) { 
                                     $parent.reloadMainContent(id, data, event) 
                                 },
@@ -65,7 +64,7 @@
                         "></h6>
                     <p data-bind="text: summary"></p>
                     <div class="date-div" data-bind="html: date"></div>
-                    <hr />
+                    <!-- <hr /> -->
                 </div>
             </div>
         </div>
@@ -76,16 +75,21 @@
             <!-- data-bind="visible: shouldShowMessage" -->
         </div>
     </div>
-    <div class="row max-row">
+    <div class="row max-row filter-bar">
         <div class="large-2 columns">&nbsp;
         </div>
         <div class="large-3 columns bottom-options">
-            <a href="javascript:{}" data-bind="click: showAll">all</a> &nbsp;
-            <a href="javascript:{}" data-bind="click: showUnread">unread</a>
+            <ul class="button-group radius">
+                <!-- .disabled -->
+              <li><a href="javascript:{}" data-bind="click: showAll" class="small button secondary">all</a></li>
+              <li><a href="javascript:{}" data-bind="click: showUnread" class="small button secondary">unread</a></li>
+              <!-- <li><a href="#" class="small button">Button 3</a></li> -->
+            </ul>
         </div>
         <div class="large-6 columns main-options">
             <a href="javascript:{}" data-bind="
-            click: makeUnread, visible: currentItem">make unread</a>
+            click: makeUnread, visible: currentItem"
+            class="small button secondary radius">make unread</a>
         </div>
     </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 function Item(id, title, summary, isRead, date) {
-    this.id = id
+    this.id = id;
     this.title = title;
     this.summary = summary;
     this.date = date;
@@ -9,7 +9,7 @@ function Item(id, title, summary, isRead, date) {
 function HomeModel(){
     var self = this;
 
-    self.feeds = 'Bob'
+    self.feeds = 'Bob';
     self.items = ko.observableArray([]);
     self.mainContent = ko.observable();
     self.mainTitle = ko.observable();
@@ -19,17 +19,17 @@ function HomeModel(){
     self.currentListId = ko.observable(false);
 
     function updateTagCount(feedElemClass, unreadCount) {
-        $(feedElemClass).text(unreadCount)
+        $(feedElemClass).text(unreadCount);
          var tagcount = 0;
         $(feedElemClass)
             .parent('li').parent('ul').find('.span-count')
             .each(function(index) {
-                tagcount += parseInt($(this).text())
-            })
+                tagcount += parseInt($(this).text());
+            });
         $(feedElemClass)
             .parent('li').parent('ul')
             .parent('li').find('.tag-span-count')
-            .text(tagcount)
+            .text(tagcount);
     }
 
     function updateMainCount() {
@@ -38,7 +38,7 @@ function HomeModel(){
             dataType: 'json',
             method: 'get',
             success : function(data) {
-                $("#main-count-span").text(data.count) 
+                $("#main-count-span").text(data.count);
             }
         });
     }
@@ -50,11 +50,11 @@ function HomeModel(){
             method: 'get',
             success : function(data) {
                if (self.currentType() && self.currentListId()) {
-                    self.reloadItems(self.currentListId(), self.currentType(), model, event)
-                } 
+                    self.reloadItems(self.currentListId(), self.currentType(), model, event);
+                }
             }
         });
-    }
+    };
 
     self.showUnread = function (model, event) {
         $.ajax({
@@ -63,11 +63,11 @@ function HomeModel(){
             method: 'get',
             success : function(data) {
                 if (self.currentType() && self.currentListId()) {
-                    self.reloadItems(self.currentListId(), self.currentType(), model, event)
+                    self.reloadItems(self.currentListId(), self.currentType(), model, event);
                 }
             }
         });
-    }
+    };
 
     self.reloadItems = function (id, type, model, event) {
         $.ajax({
@@ -80,20 +80,20 @@ function HomeModel(){
                     (function(obj){
                         items.push(
                             new Item(
-                                obj.pk, obj.fields.title, 
-                                obj.fields.shortDescr, 
+                                obj.pk, obj.fields.title,
+                                obj.fields.shortDescr,
                                 obj.fields.isRead,
                                 obj.fields.date
                             )
-                        )
+                        );
                     })(value);
-                })
+                });
                 self.currentType(type);
                 self.currentListId(id);
                 self.items(items);
             }
         });
-    }
+    };
 
     self.reloadMainContent = function (itemId, item, event) {
         $.ajax({
@@ -101,22 +101,22 @@ function HomeModel(){
             dataType: 'json',
             method: 'get',
             success : function(data) {
-                self.mainContent(data.content)
-                self.mainTitle(data.title)
-                self.mainDate(data.date)
-                item.isRead(data.isRead)
+                self.mainContent(data.content);
+                self.mainTitle(data.title);
+                self.mainDate(data.date);
+                item.isRead(data.isRead);
 
-                self.currentItem(itemId)
-                
-                updateTagCount(".feed-count-span-"+data.feedId, data.unreadCount)
-                updateMainCount()
+                self.currentItem(itemId);
+
+                updateTagCount(".feed-count-span-"+data.feedId, data.unreadCount);
+                updateMainCount();
             },
             error: function(data, stats, error) {
-                console.log("login fault: " + data + ", " + 
+                console.log("login fault: " + data + ", " +
                         stats + ", " + error);
             }
         });
-    }
+    };
 
     self.makeUnread = function (item, event) {
         if (self.currentItem()) {
@@ -125,22 +125,22 @@ function HomeModel(){
                 dataType: 'json',
                 method: 'get',
                 success : function(data) {
-                    updateTagCount(".feed-count-span-"+data.feedId, data.unreadCount)
-                    updateMainCount()
+                    updateTagCount(".feed-count-span-"+data.feedId, data.unreadCount);
+                    updateMainCount();
 
                     for (var i = 0; i < self.items().length; i++ ) {
                         if (self.items()[i].id == self.currentItem()) {
-                            self.items()[i].isRead(0)
+                            self.items()[i].isRead(0);
                         }
                     }
                 },
                 error: function(data, stats, error) {
-                    console.log("login fault: " + data + ", " + 
+                    console.log("login fault: " + data + ", " +
                             stats + ", " + error);
                 }
             });
         }
-    }
+    };
 
     self.toggleTag = function (tagId, model, event) {
         $.ajax({
@@ -150,14 +150,14 @@ function HomeModel(){
             success : function(data) {
             },
             error: function(data, stats, error) {
-                console.log("login fault: " + data + ", " + 
+                console.log("login fault: " + data + ", " +
                         stats + ", " + error);
             }
         });
-    }
+    };
 }
 
 $(function(){
     model = new HomeModel();
     ko.applyBindings(model);
-})
+});

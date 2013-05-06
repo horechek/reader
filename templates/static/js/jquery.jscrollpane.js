@@ -74,6 +74,7 @@
 								elem.css('paddingRight') + ' ' +
 								elem.css('paddingBottom') + ' ' +
 								elem.css('paddingLeft');
+			originalPadding = '';
 			originalPaddingTotalWidth = (parseInt(elem.css('paddingLeft'), 10) || 0) +
 										(parseInt(elem.css('paddingRight'), 10) || 0);
 
@@ -176,7 +177,8 @@
 					elem.removeClass('jspScrollable');
 					pane.css({
 						top: 0,
-						width: container.width() - originalPaddingTotalWidth
+						// width: container.width() - originalPaddingTotalWidth
+						width: "100%"
 					});
 					removeMousewheel();
 					removeFocusHandler();
@@ -321,7 +323,7 @@
 				scrollbarWidth = settings.verticalGutter + verticalTrack.outerWidth();
 
 				// Make the pane thinner to allow for the vertical scrollbar
-				pane.width(paneWidth - scrollbarWidth - originalPaddingTotalWidth);
+				pane.width("100%");
 
 				// Add margin to the left of the pane if scrollbars are on that side (to position
 				// the scrollbar on the left or right set it's left or right property in CSS)
