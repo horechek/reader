@@ -63,7 +63,7 @@ def set_new_data_in_feed(feed, rss_feed):
 
 def set_new_data_in_feed_item(feed, rss_item):
     try:
-        article = FeedItem.objects.get(link=rss_item['link'])
+        article = FeedItem.objects.get(link=rss_item['link'], feed=link)
         update = True
     except:
         article = FeedItem()
