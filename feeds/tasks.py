@@ -32,3 +32,7 @@ def update_all_feeds():
     """ Periodic task for update all feeds """
     for user in User.objects.all():
             update_feeds_by_user(user)
+
+# @task()
+# def import_from_opml():
+#     pass

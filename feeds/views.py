@@ -193,14 +193,14 @@ def handle_uploaded_file(f, user, remove_old=True):
         else:
             parsefeed = item
             insert_feed(parsefeed, user)
-    update_feeds(user)
+    update_feeds.delay(user)
 
 
 def insert_feed(parsefeed, user, tag=False):
     try:
         try:
             feed = Feed.objects.get(url=parsefeed.xmlUrl)
-        except:
+        except Exception, e:
             feed = Feed()
         feed.url = parsefeed.xmlUrl
         feed.title = parsefeed.text
