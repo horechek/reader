@@ -63,7 +63,7 @@ def set_new_data_in_feed(feed, rss_feed):
 
 def set_new_data_in_feed_item(feed, rss_item):
     try:
-        article = FeedItem.objects.get(link=rss_item['link'], feed=link)
+        article = FeedItem.objects.filter(link=rss_item['link'], feed=feed)[0]
         update = True
     except:
         article = FeedItem()
@@ -71,6 +71,9 @@ def set_new_data_in_feed_item(feed, rss_item):
 
     if update:
         return False
+
+    # print FeedItem.objects.filter(link=rss_item['link'])[0]
+
     try:
             # print rss_item
         if 'link' in rss_item:
