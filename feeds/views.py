@@ -22,8 +22,8 @@ def add_feed(request):
         form = FeedForm(post_values, initial={'user': request.user.id})
         if form.is_valid():
             feed = form.save()
-            update_new_feed(feed)
-            add_item_to_feed(feed)
+            update_new_feed.delay(feed)
+            add_item_to_feed.delay(feed)
             return redirect('/')
     else:
         form = FeedForm()
