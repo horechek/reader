@@ -98,3 +98,7 @@ div.bottom-options a{
 .item-content{
     padding: 20px 30px 0 0;
 }
+
+ul {
+    list-style: none;
+}
