@@ -1,8 +1,9 @@
-<h2>Add new feed</h2>
-<p class="lead">Insert link.  Pres button.</p>
-<p>Link should be a link to valid rss feed. Wins</p>
-<form action="/feeds/add/" method="post">
+<form action="{{action}}" method="post">
     {% csrf_token %}
+    <p>
+        {{ form.title.errors }}
+        {{ form.title.label_tag }} {{ form.title }}
+    </p>
     <p>
         {{ form.url.errors }}
         {{ form.url.label_tag }} {{ form.url }}

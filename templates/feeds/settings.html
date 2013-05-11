@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load feed_form tag_form %}
 
 {% block content %}
 <div class="row max-row">
@@ -7,22 +8,13 @@
     <div class="large-9 columns">
         <ul class="settings">
         {% for tag in tags %}
-        <li><a href="#">{{ tag.title }}</a>
+        <li><a href="#" class="edit-link">{{ tag.title }}</a> <a href="/feeds/remove_tag/{{tag.id}}" class="remove-link">x</a>
         <!-- <li class="divider"></li> -->
+            {% tag_form tag %}
             <ul class="settings">
             {% for feed in tag.feeds.all %}
-            <li><a href="#">{{feed.title}}</a> &nbsp;<a href="">edit</a>
-                <!-- <form>
-                    <label>Tile</label>
-                    <input type="text">
-                    <label>Feed</label>
-                    <input type="text">
-                    <label>Tags</label>
-                    <select>
-                        <option></option>
-                        <option></option>
-                    </select>
-                </from> -->
+            <li><a href="#" class="edit-link">{{feed.title}}</a> <a href="/feeds/remove/{{feed.id}}" class="remove-link">x</a>
+                {% feed_form feed %}
             </li>
             {% endfor %}
             </ul>
@@ -31,7 +23,9 @@
         {% endfor %}
 
         {% for feed in feeds %}
-        <li><a href="#">{{feed.title}}</a></li>
+        <li><a href="#" class="edit-link">{{feed.title}}</a> <a href="/feeds/remove/{{feed.id}}" class="remove-link">x</a>
+            {% feed_form feed %}
+        </li>
         {% endfor %}
         </ul>
     </div>
