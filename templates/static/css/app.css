@@ -102,3 +102,11 @@ div.bottom-options a{
 ul {
     list-style: none;
 }
+
+ul.settings form {
+    display: none;
+}
+
+ul.settings a.remove-link{
+    color: red;
+}

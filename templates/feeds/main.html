@@ -27,7 +27,6 @@
                             reloadItems('{{tag.id}}', 'tag', data, event) 
                         }"
                     >{{ tag.title }}</a>&nbsp;<span class="tag-count-span-{{tag.id}} tag-span-count">{{tag.get_unred_count}}</span>
-                <!-- <li class="divider"></li> -->
                     <ul class="sub-ul" {% if not tag.isOpen %}style="display:none"{% endif %}>
                     {% for feed in tag.feeds.all %}
                     <li><a href="#" data-bind="click: 
