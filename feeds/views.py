@@ -32,7 +32,16 @@ def add_feed(request):
 
 @login_required
 def edit_feed(request, feed_id):
-    pass
+    if request.method == "POST":
+        post_values = request.POST.copy()
+        post_values['user'] = request.user.id
+        feed = Feed.objects.get(pk=feed_id)
+        form = FeedForm(post_values, instance=feed)
+        if form.is_valid():
+            feed = form.save()
+            update_new_feed.delay(feed)
+            add_item_to_feed.delay(feed)
+        return redirect('/feeds/settings/')
 
 
 @login_required
@@ -58,19 +67,32 @@ def add_tag(request):
 
 @login_required
 def edit_tag(request, tag_id):
-    pass
+    if request.method == "POST":
+        post_values = request.POST.copy()
+        post_values['user'] = request.user.id
+        tag = Tag.objects.get(pk=feed_id)
+        form = TagForm(post_values, instance=tag)
+        if form.is_valid():
+            tag = form.save()
+            update_new_feed.delay(tag)
+            add_item_to_feed.delay(tag)
+        return redirect('/feeds/settings/')
 
 
 @login_required
 def remove_tag(request, tag_id):
-    pass
+    Tag.objects.get(id=tag_id, user=request.user.id).delete()
+    request.flash['info'] = 'Removed tag ok'
+    return redirect('/')
 
 
 @login_required
 def settings_feeds(request):
     tags = Tag.objects.filter(user=request.user.id)
     feeds = Feed.objects.filter(user=request.user.id, tags__isnull=True)
-    return render(request, 'feeds/settings.html', {'tags': tags, 'feeds': feeds})
+    # feed_formset = FeedFormSet()
+    return render(request, 'feeds/settings.html',
+                  {'tags': tags, 'feeds': feeds})
 
 
 @login_required

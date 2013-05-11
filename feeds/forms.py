@@ -1,5 +1,6 @@
 from django import forms
 from feeds.models import *
+from django.forms.formsets import formset_factory
 
 
 class FeedForm(forms.ModelForm):
@@ -15,3 +16,6 @@ class TagForm(forms.ModelForm):
 class ImportForm(forms.Form):
     removeOld = forms.BooleanField(label="Remove Old", required=False)
     file = forms.FileField()
+
+FeedFormSet = formset_factory(FeedForm)
+TagFormSet = formset_factory(TagForm)

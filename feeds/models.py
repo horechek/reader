@@ -5,6 +5,7 @@ from django.core.serializers import serialize
 from django.utils.simplejson import dumps, loads, JSONEncoder
 from django.db.models.query import QuerySet
 from django.utils.functional import curry
+from django.forms.formsets import formset_factory
 
 
 class DjangoJSONEncoder(JSONEncoder):
