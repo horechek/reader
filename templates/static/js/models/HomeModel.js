@@ -101,6 +101,7 @@ function HomeModel(){
             dataType: 'json',
             method: 'get',
             success : function(data) {
+                $('#main-content-area .jspPane').css({'top': 0});
                 self.mainContent(data.content);
                 self.mainTitle(data.title);
                 self.mainDate(data.date);
